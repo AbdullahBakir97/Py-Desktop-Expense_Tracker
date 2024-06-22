@@ -3,6 +3,7 @@ from tkinter import ttk, messagebox, filedialog
 from preferences import Preferences
 from controller import ExpenseTrackerController
 from datetime import datetime
+from tkcalendar import Calendar, DateEntry
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -43,11 +44,12 @@ class ExpenseTrackerView:
 
         ttk.Label(frame, text="Category:").grid(row=1, column=0, sticky=tk.W)
         self.category_var = tk.StringVar()
-        self.update_category_menu(frame)  # Pass frame to update_category_menu
+        self.update_category_menu(frame)
 
-        ttk.Label(frame, text="Date (YYYY-MM-DD):").grid(row=2, column=0, sticky=tk.W)
-        self.date_entry = ttk.Entry(frame, width=25)
-        self.date_entry.grid(row=2, column=1, sticky=(tk.W, tk.E))
+        ttk.Label(frame, text="Date:").grid(row=2, column=0, sticky=tk.W)
+        self.date_entry = DateEntry(frame, width=12, background='darkblue',
+                                    foreground='white', borderwidth=2)
+        self.date_entry.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
 
         ttk.Label(frame, text="Description:").grid(row=3, column=0, sticky=tk.W)
         self.description_entry = ttk.Entry(frame, width=25)
@@ -130,9 +132,12 @@ class ExpenseTrackerView:
     def update_category_menu(self, frame=None):
         if frame is None:
             frame = self.tabs.nametowidget(self.tabs.tabs()[0])
+        
         categories = self.controller.get_categories()
+        
         if hasattr(self, 'category_var'):
             self.category_var.set(categories[0] if categories else "")
+            
             if hasattr(self, 'category_menu'):
                 self.category_menu['menu'].delete(0, 'end')
                 for category in categories:
@@ -222,15 +227,17 @@ class ExpenseTrackerView:
     def add_expense(self):
         amount = self.amount_entry.get().strip()
         category = self.category_var.get()
-        date_str = self.date_entry.get().strip()
+        date = self.date_entry.get_date().strftime("%Y-%m-%d")
         description = self.description_entry.get().strip()
 
         try:
-            if not date_str:
-                date = datetime.today().date()
-            else:
-                date = datetime.strptime(date_str, '%Y-%m-%d').date()
-            
+            # Validate inputs
+            if not (amount and category and date):
+                raise ValueError("All fields except description are required.")
+
+            amount = float(amount)  # Convert amount to float
+
+            # Add expense using controller
             self.controller.add_expense(amount, category, date, description)
             messagebox.showinfo("Success", "Expense added successfully!")
             self.clear_entries()

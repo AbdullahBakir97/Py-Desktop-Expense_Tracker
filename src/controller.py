@@ -8,30 +8,66 @@ import sqlite3
 class ExpenseTrackerController:
     def __init__(self):
         self.model = ExpenseModel()
+        
+    def validate_date(self, date_str):
+        """
+        Validate and normalize the date format to '%Y-%m-%d'.
+        
+        Args:
+        - date_str (str): Date string in format '%Y-%m-%d'.
+        
+        Returns:
+        - str: Validated date string in format '%Y-%m-%d'.
+        
+        Raises:
+        - ValueError: If date format is not valid.
+        """
+        if not date_str:
+            return datetime.today().date().strftime("%m/%d/%Y")  # Default to today's date if empty
 
-    def add_expense(self, amount, category, date, description):
+        try:
+            return datetime.strptime(date_str, '%m/%d/%Y').date().strftime("%m/%d/%Y")
+        except ValueError:
+            raise ValueError("Date format is not valid. It should be in YYYY/MM/DD format.")
+
+    def add_expense(self, amount, category, date_str, description):
+        """
+        Add an expense to the model after validating inputs and date format.
+        
+        Args:
+        - amount (str or float): Amount of the expense.
+        - category (str): Category of the expense.
+        - date_str (str): Date of the expense in format '%Y-%m-%d'.
+        - description (str): Description of the expense.
+        
+        Raises:
+        - ValueError: If any required field is missing or if amount is not numeric.
+        - Exception: For any unexpected errors during the addition of expense.
+        """
         try:
             # Validate inputs
-            if not (amount and category and date):
+            if not (amount and category and date_str):
                 raise ValueError("All fields except description are required.")
 
-            amount = float(amount)  # Convert amount to float
+            # Convert amount to float (if it's not already)
+            amount = float(amount)
 
-            # Validate and convert date to string if necessary
-            if isinstance(date, datetime) or isinstance(date, date):
-                date = date.strftime("%Y-%m-%d")
-            elif isinstance(date, str):
-                datetime.strptime(date, '%Y-%m-%d')  # Validate date format
-            else:
-                raise ValueError("Date format is not valid.")
+            # Validate and normalize date format
+            date = self.validate_date(date_str)
 
+            # Add expense to model
             self.model.add_expense(amount, category, date, description)
+
         except ValueError as ve:
             print(f"Error adding expense: {ve}")
+            raise  # Re-raise the ValueError to propagate it to the caller (e.g., the GUI)
+
         except Exception as e:
             print(f"Error adding expense: {e}")
+            raise Exception("Unexpected error occurred while adding expense.")
 
 
+        
     def get_expenses(self):
         try:
             return self.model.get_expenses()
