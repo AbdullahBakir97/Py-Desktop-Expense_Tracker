@@ -92,95 +92,11 @@ Stay updated with our roadmap and contribute to shaping the future of Expense Tr
 
 ## Sequence Diagram
 
-::: mermaid
-sequenceDiagram
-    participant User
-    participant ExpenseTrackerView
-    participant ExpenseTrackerController
-    participant ExpenseModel
-    participant Preferences
-
-    User->>ExpenseTrackerView: Opens Expense Tracker
-    activate ExpenseTrackerView
-
-    ExpenseTrackerView->>ExpenseTrackerController: Request categories
-    activate ExpenseTrackerController
-    ExpenseTrackerController-->>ExpenseTrackerView: Categories
-    deactivate ExpenseTrackerController
-
-    User->>ExpenseTrackerView: Adds new expense
-    ExpenseTrackerView->>ExpenseTrackerController: Validate and save expense details
-    activate ExpenseTrackerController
-    ExpenseTrackerController->>ExpenseModel: add_expense(amount, category, date, description)
-    activate ExpenseModel
-    ExpenseModel-->>ExpenseTrackerController: Expense saved confirmation
-    deactivate ExpenseModel
-    deactivate ExpenseTrackerController
-
-    User->>ExpenseTrackerView: Filters expenses by category and date
-    ExpenseTrackerView->>ExpenseTrackerController: Request filtered expenses
-    activate ExpenseTrackerController
-    ExpenseTrackerController->>ExpenseModel: get_expenses()
-    activate ExpenseModel
-    ExpenseModel-->>ExpenseTrackerController: Filtered expenses
-    deactivate ExpenseModel
-    deactivate ExpenseTrackerController
-
-    User->>ExpenseTrackerView: Requests expense reports
-    ExpenseTrackerView->>ExpenseTrackerController: Generate report
-    activate ExpenseTrackerController
-    ExpenseTrackerController->>ExpenseModel: get_expenses()
-    activate ExpenseModel
-    ExpenseModel-->>ExpenseTrackerController: Report data
-    deactivate ExpenseModel
-    deactivate ExpenseTrackerController
-
-    User->>ExpenseTrackerView: Manages categories (add/remove)
-    ExpenseTrackerView->>Preferences: Opens Preferences
-    activate Preferences
-    Preferences->>ExpenseModel: load_categories_from_db()
-    activate ExpenseModel
-    ExpenseModel-->>Preferences: Categories
-    deactivate ExpenseModel
-
-    Preferences->>ExpenseModel: add_category(category)
-    activate ExpenseModel
-    ExpenseModel-->>Preferences: Category added confirmation
-    deactivate ExpenseModel
-
-    Preferences->>ExpenseModel: remove_category(category)
-    activate ExpenseModel
-    ExpenseModel-->>Preferences: Category removed confirmation
-    deactivate ExpenseModel
-
-    Preferences-->>ExpenseTrackerView: Update categories UI
-    deactivate Preferences
-
-    User->>ExpenseTrackerView: Closes Expense Tracker
-    ExpenseTrackerView->>ExpenseTrackerController: Close connection
-    activate ExpenseTrackerController
-    ExpenseTrackerController->>ExpenseModel: close_connection()
-    activate ExpenseModel
-    ExpenseModel-->>ExpenseTrackerController: Connection closed
-    deactivate ExpenseModel
-    deactivate ExpenseTrackerController
-
-    ExpenseTrackerView-->>User: Expense Tracker closed
-    deactivate ExpenseTrackerView
-:::
+[![](https://mermaid.ink/img/pako:eNrVVstu2zAQ_BWCJwew0bsOAQq3KXIIGqR1TgKEDblSiEikSlJOjSD_XlIPS7Zkq3aUAPHBkLnUzuzMeskXyhRHGlCDfwqUDL8JSDRkoSTuk4O2gokcpCUrg7q_-v1vjtLgbw3sCfW9wOexPUslrVZpeiTbjaOU9qO3GmPUnqQJZRX2pBaXl30WAfnpl5qMpA5VbwGzYg0WB9lXW_qRHkxbSEDuvHrGEuayJkoLz_AI0r4Gh6KLA7Ut92A4_gfQqGJfOTdE4jPBKniWEveQCu6JgOTEwBqbbI6kBZFOJMyWQtkrAQHOoxpoBpkqpJ03ZmzmxBNy32iYFrkVSl4Ms-g0XndlcbTipsV8sZwwJWOhM_Aoh8zpwEzj3JVILWrTSG3Iw2ZbfWmEF-BNjR2XCK6-BuJ9bEzQNjaa2ZQmXQ3z_wBvagW35hCNudLWnGXHD5SoPaEqyScz4a4k7ZsRPkz-G5CQuH9EO5nJzA2LLxoztcaLIy50jpvmNNk5gXZk6UU6Cz2BUwU8aglFsVZZxB_O0HqH4_ipUGcaZ-jHaTNAZs3DNPQ2Pvlpg3Kcb-Xm-1Gu8r-R9IEOXeXledlp0NV1L_dpd59lqvwpMHj5OXHilKl83RJZW_XUI4d5lKhFmXTsLLdpKxw-7fAZENTR8e4E-w6M4HdS0DnN0DWa4O5u_uJfCKl9xAxDGrhHDvoppKF8dfugsOrXRjIaWF3gnGpVJI80iCE17ldRdld9q69XX_8BK2dV6Q?type=png)](https://mermaid.live/edit#pako:eNrVVstu2zAQ_BWCJwew0bsOAQq3KXIIGqR1TgKEDblSiEikSlJOjSD_XlIPS7Zkq3aUAPHBkLnUzuzMeskXyhRHGlCDfwqUDL8JSDRkoSTuk4O2gokcpCUrg7q_-v1vjtLgbw3sCfW9wOexPUslrVZpeiTbjaOU9qO3GmPUnqQJZRX2pBaXl30WAfnpl5qMpA5VbwGzYg0WB9lXW_qRHkxbSEDuvHrGEuayJkoLz_AI0r4Gh6KLA7Ut92A4_gfQqGJfOTdE4jPBKniWEveQCu6JgOTEwBqbbI6kBZFOJMyWQtkrAQHOoxpoBpkqpJ03ZmzmxBNy32iYFrkVSl4Ms-g0XndlcbTipsV8sZwwJWOhM_Aoh8zpwEzj3JVILWrTSG3Iw2ZbfWmEF-BNjR2XCK6-BuJ9bEzQNjaa2ZQmXQ3z_wBvagW35hCNudLWnGXHD5SoPaEqyScz4a4k7ZsRPkz-G5CQuH9EO5nJzA2LLxoztcaLIy50jpvmNNk5gXZk6UU6Cz2BUwU8aglFsVZZxB_O0HqH4_ipUGcaZ-jHaTNAZs3DNPQ2Pvlpg3Kcb-Xm-1Gu8r-R9IEOXeXledlp0NV1L_dpd59lqvwpMHj5OXHilKl83RJZW_XUI4d5lKhFmXTsLLdpKxw-7fAZENTR8e4E-w6M4HdS0DnN0DWa4O5u_uJfCKl9xAxDGrhHDvoppKF8dfugsOrXRjIaWF3gnGpVJI80iCE17ldRdld9q69XX_8BK2dV6Q)
 
 ## Entity-Relationship Diagram
 
-::: mermaid
-erDiagram
-    EXPENSE {
-        id INT PK
-        amount FLOAT
-        category VARCHAR
-        date DATE
-        description TEXT
-    }
-:::
+[![](https://mermaid.ink/img/pako:eNpNj0EKwyAQRa8is-4J3EljaWlJQyIlCzeiNpFWDUYXIeTuNW0g_av5b4aZPzNIrzRg0KEwogvCcoeyaFvRsqFo_tlVRqFLyVB13ZGwPrmITrc7YTuVIurOhwk9SH08k3rvqNxBBWH0D-lRBjNE4x1itN3WLHAAq4MVRuVs3xAcYq-t5oBzqUR4ceBunRMp-mZyEnAMSR8g-NT1gJ_iPWaXhvXo9ttGlw-540nm?type=png)](https://mermaid.live/edit#pako:eNpNj0EKwyAQRa8is-4J3EljaWlJQyIlCzeiNpFWDUYXIeTuNW0g_av5b4aZPzNIrzRg0KEwogvCcoeyaFvRsqFo_tlVRqFLyVB13ZGwPrmITrc7YTuVIurOhwk9SH08k3rvqNxBBWH0D-lRBjNE4x1itN3WLHAAq4MVRuVs3xAcYq-t5oBzqUR4ceBunRMp-mZyEnAMSR8g-NT1gJ_iPWaXhvXo9ttGlw-540nm)
 
 
 ## Visualizations
