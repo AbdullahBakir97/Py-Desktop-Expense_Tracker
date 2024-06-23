@@ -30,8 +30,8 @@ The **Expense Tracker** is a graphical application built with Python and Tkinter
 
 - 📄 **Export Functionality:**
 
-- Export detailed expense reports in PDF, CSV, or SQLite formats for comprehensive financial analysis and reporting.
-- Easily share and archive expense data to facilitate collaboration or record-keeping. 
+  - Export detailed expense reports in PDF, CSV, or SQLite formats for comprehensive financial analysis and reporting.
+  - Easily share and archive expense data to facilitate collaboration or record-keeping. 
 
 
 ## Future Development
