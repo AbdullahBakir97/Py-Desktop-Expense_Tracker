@@ -93,6 +93,7 @@ Stay updated with our roadmap and contribute to shaping the future of Expense Tr
 - 📅 **Filter by Date:** Use date selectors to view expenses within a specific period.
 - 📊 **View Reports:** Analyze expenses with graphical representations.
 - 📝 **Add/Edit Expenses:** Input new expenses or modify existing ones easily.
+- 📄 **Export Reports:** Export detailed expense reports in PDF or CSV formats.
 
 ## Sequence Diagram
 
