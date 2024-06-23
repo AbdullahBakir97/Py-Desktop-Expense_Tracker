@@ -23,6 +23,7 @@ class Preferences(ttk.Frame):
             self.cursor = self.conn.cursor()
         except sqlite3.Error as e:
             print(f"Error connecting to database: {e}")
+            messagebox.showerror("Database Error", f"Error connecting to database: {e}")
 
     def create_categories_table(self):
         try:
@@ -32,6 +33,7 @@ class Preferences(ttk.Frame):
             self.conn.commit()
         except sqlite3.Error as e:
             print(f"Error creating categories table: {e}")
+            messagebox.showerror("Database Error", f"Error creating categories table: {e}")
 
     def load_categories_from_db(self):
         try:
@@ -39,6 +41,7 @@ class Preferences(ttk.Frame):
             self.categories = [row[0] for row in self.cursor.fetchall()]
         except sqlite3.Error as e:
             print(f"Error loading categories from database: {e}")
+            messagebox.showerror("Database Error", f"Error loading categories from database: {e}")
 
     def add_category(self, category):
         try:
@@ -47,10 +50,10 @@ class Preferences(ttk.Frame):
             self.load_categories_from_db()
             self.update_categories()
         except sqlite3.IntegrityError:
-            messagebox.showerror("Error", "Category already exists!")
+            messagebox.showerror("Integrity Error", "Category already exists!")
         except sqlite3.Error as e:
             print(f"Error adding category: {e}")
-            messagebox.showerror("Error", f"Error adding category: {e}")
+            messagebox.showerror("Database Error", f"Error adding category: {e}")
 
     def remove_category(self, category):
         try:
@@ -60,7 +63,7 @@ class Preferences(ttk.Frame):
             self.update_categories()
         except sqlite3.Error as e:
             print(f"Error removing category: {e}")
-            messagebox.showerror("Error", f"Error removing category: {e}")
+            messagebox.showerror("Database Error", f"Error removing category: {e}")
 
     def setup_ui(self):
         ttk.Label(self, text="Preferences Panel").pack(padx=10, pady=10)
@@ -80,3 +83,4 @@ class Preferences(ttk.Frame):
             self.conn.close()
         except sqlite3.Error as e:
             print(f"Error closing database connection: {e}")
+            messagebox.showerror("Database Error", f"Error closing database connection: {e}")

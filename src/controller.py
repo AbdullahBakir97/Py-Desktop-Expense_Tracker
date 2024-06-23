@@ -74,6 +74,13 @@ class ExpenseTrackerController:
         except Exception as e:
             print(f"Error getting expenses: {e}")
             return []
+        
+    def get_expenses_charts(self):
+        try:
+            return self.model.get_expenses_charts()
+        except Exception as e:
+            print(f"Error getting expenses: {e}")
+            return []
 
     def get_categories(self):
         try:
