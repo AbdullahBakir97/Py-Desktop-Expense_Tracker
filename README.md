@@ -78,18 +78,13 @@ Stay updated with our roadmap and contribute to shaping the future of Expense Tr
    pip install -r requirements.txt
 ```
 
-3. **Setup the SQLite database:**
-   
-```
-   python setup_db.py
-```
 
 ### Usage
 
-1. **Run the application:**
+. **Run the application:**
 
 ```
-    python gui.py
+    python main.py
 ```
 
 
