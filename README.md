@@ -8,6 +8,12 @@
 
 The **Expense Tracker** is a graphical application built with Python and Tkinter, designed to help users manage their expenses efficiently. It utilizes SQLite for data storage and offers an intuitive interface for adding, categorizing, and analyzing expenses. Whether for personal use or small business needs, this tool aims to simplify expense tracking and financial management.
 
+![Expense Tracker List](https://github.com/AbdullahBakir97/Py-Desktop-Expense_Tracker/assets/127149804/aa142657-cdbd-4060-8439-74a032fa2ad5)
+
+## Entity-Relationship Diagram
+
+[![](https://mermaid.ink/img/pako:eNpNj0EKwyAQRa8is-4J3EljaWlJQyIlCzeiNpFWDUYXIeTuNW0g_av5b4aZPzNIrzRg0KEwogvCcoeyaFvRsqFo_tlVRqFLyVB13ZGwPrmITrc7YTuVIurOhwk9SH08k3rvqNxBBWH0D-lRBjNE4x1itN3WLHAAq4MVRuVs3xAcYq-t5oBzqUR4ceBunRMp-mZyEnAMSR8g-NT1gJ_iPWaXhvXo9ttGlw-540nm?type=png)](https://mermaid.live/edit#pako:eNpNj0EKwyAQRa8is-4J3EljaWlJQyIlCzeiNpFWDUYXIeTuNW0g_av5b4aZPzNIrzRg0KEwogvCcoeyaFvRsqFo_tlVRqFLyVB13ZGwPrmITrc7YTuVIurOhwk9SH08k3rvqNxBBWH0D-lRBjNE4x1itN3WLHAAq4MVRuVs3xAcYq-t5oBzqUR4ceBunRMp-mZyEnAMSR8g-NT1gJ_iPWaXhvXo9ttGlw-540nm)
+
 ## Features
 
 - 📊 **Expense Management:**
@@ -99,9 +105,6 @@ Stay updated with our roadmap and contribute to shaping the future of Expense Tr
 
 [![](https://mermaid.ink/img/pako:eNrVVstu2zAQ_BWCJwew0bsOAQq3KXIIGqR1TgKEDblSiEikSlJOjSD_XlIPS7Zkq3aUAPHBkLnUzuzMeskXyhRHGlCDfwqUDL8JSDRkoSTuk4O2gokcpCUrg7q_-v1vjtLgbw3sCfW9wOexPUslrVZpeiTbjaOU9qO3GmPUnqQJZRX2pBaXl30WAfnpl5qMpA5VbwGzYg0WB9lXW_qRHkxbSEDuvHrGEuayJkoLz_AI0r4Gh6KLA7Ut92A4_gfQqGJfOTdE4jPBKniWEveQCu6JgOTEwBqbbI6kBZFOJMyWQtkrAQHOoxpoBpkqpJ03ZmzmxBNy32iYFrkVSl4Ms-g0XndlcbTipsV8sZwwJWOhM_Aoh8zpwEzj3JVILWrTSG3Iw2ZbfWmEF-BNjR2XCK6-BuJ9bEzQNjaa2ZQmXQ3z_wBvagW35hCNudLWnGXHD5SoPaEqyScz4a4k7ZsRPkz-G5CQuH9EO5nJzA2LLxoztcaLIy50jpvmNNk5gXZk6UU6Cz2BUwU8aglFsVZZxB_O0HqH4_ipUGcaZ-jHaTNAZs3DNPQ2Pvlpg3Kcb-Xm-1Gu8r-R9IEOXeXledlp0NV1L_dpd59lqvwpMHj5OXHilKl83RJZW_XUI4d5lKhFmXTsLLdpKxw-7fAZENTR8e4E-w6M4HdS0DnN0DWa4O5u_uJfCKl9xAxDGrhHDvoppKF8dfugsOrXRjIaWF3gnGpVJI80iCE17ldRdld9q69XX_8BK2dV6Q?type=png)](https://mermaid.live/edit#pako:eNrVVstu2zAQ_BWCJwew0bsOAQq3KXIIGqR1TgKEDblSiEikSlJOjSD_XlIPS7Zkq3aUAPHBkLnUzuzMeskXyhRHGlCDfwqUDL8JSDRkoSTuk4O2gokcpCUrg7q_-v1vjtLgbw3sCfW9wOexPUslrVZpeiTbjaOU9qO3GmPUnqQJZRX2pBaXl30WAfnpl5qMpA5VbwGzYg0WB9lXW_qRHkxbSEDuvHrGEuayJkoLz_AI0r4Gh6KLA7Ut92A4_gfQqGJfOTdE4jPBKniWEveQCu6JgOTEwBqbbI6kBZFOJMyWQtkrAQHOoxpoBpkqpJ03ZmzmxBNy32iYFrkVSl4Ms-g0XndlcbTipsV8sZwwJWOhM_Aoh8zpwEzj3JVILWrTSG3Iw2ZbfWmEF-BNjR2XCK6-BuJ9bEzQNjaa2ZQmXQ3z_wBvagW35hCNudLWnGXHD5SoPaEqyScz4a4k7ZsRPkz-G5CQuH9EO5nJzA2LLxoztcaLIy50jpvmNNk5gXZk6UU6Cz2BUwU8aglFsVZZxB_O0HqH4_ipUGcaZ-jHaTNAZs3DNPQ2Pvlpg3Kcb-Xm-1Gu8r-R9IEOXeXledlp0NV1L_dpd59lqvwpMHj5OXHilKl83RJZW_XUI4d5lKhFmXTsLLdpKxw-7fAZENTR8e4E-w6M4HdS0DnN0DWa4O5u_uJfCKl9xAxDGrhHDvoppKF8dfugsOrXRjIaWF3gnGpVJI80iCE17ldRdld9q69XX_8BK2dV6Q)
 
-## Entity-Relationship Diagram
-
-[![](https://mermaid.ink/img/pako:eNpNj0EKwyAQRa8is-4J3EljaWlJQyIlCzeiNpFWDUYXIeTuNW0g_av5b4aZPzNIrzRg0KEwogvCcoeyaFvRsqFo_tlVRqFLyVB13ZGwPrmITrc7YTuVIurOhwk9SH08k3rvqNxBBWH0D-lRBjNE4x1itN3WLHAAq4MVRuVs3xAcYq-t5oBzqUR4ceBunRMp-mZyEnAMSR8g-NT1gJ_iPWaXhvXo9ttGlw-540nm?type=png)](https://mermaid.live/edit#pako:eNpNj0EKwyAQRa8is-4J3EljaWlJQyIlCzeiNpFWDUYXIeTuNW0g_av5b4aZPzNIrzRg0KEwogvCcoeyaFvRsqFo_tlVRqFLyVB13ZGwPrmITrc7YTuVIurOhwk9SH08k3rvqNxBBWH0D-lRBjNE4x1itN3WLHAAq4MVRuVs3xAcYq-t5oBzqUR4ceBunRMp-mZyEnAMSR8g-NT1gJ_iPWaXhvXo9ttGlw-540nm)
 
 
 ## Visualizations
@@ -119,7 +122,7 @@ Stay updated with our roadmap and contribute to shaping the future of Expense Tr
 For a detailed expense report, view the [PDF report](data/pdf.pdf).
 
 
-![Expense Tracker List](https://github.com/AbdullahBakir97/Py-Desktop-Expense_Tracker/assets/127149804/aa142657-cdbd-4060-8439-74a032fa2ad5)
+
 
 
 ## Contributing
