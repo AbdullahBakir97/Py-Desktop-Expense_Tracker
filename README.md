@@ -1,5 +1,4 @@
 # Expense Tracker
-
 ![Python](https://img.shields.io/badge/Python-3.x-blue.svg)
 ![Tkinter](https://img.shields.io/badge/Tkinter-GUI-yellow.svg)
 ![SQLite](https://img.shields.io/badge/SQLite-3-lightgrey.svg)
