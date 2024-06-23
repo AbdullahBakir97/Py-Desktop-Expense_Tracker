@@ -1,2 +1,31 @@
 id,amount,category,date,description
-1,500.0,Food,2024-06-21,Limits
+1,50.0,Groceries,2024-01-05,Grocery shopping
+2,75.0,Utilities,2024-01-10,Electricity bill
+3,40.0,Entertainment,2024-01-12,Movie tickets
+4,20.0,Transport,2024-01-14,Bus fare
+5,60.0,Dining,2024-01-15,Dinner at a restaurant
+6,30.0,Health,2024-01-18,Doctor visit
+7,100.0,Education,2024-01-20,Online course
+8,45.0,Shopping,2024-01-22,Clothes
+9,150.0,Insurance,2024-01-25,Health insurance
+10,10.0,Miscellaneous,2024-01-27,Stationery
+11,55.0,Groceries,2024-02-03,Grocery shopping
+12,80.0,Utilities,2024-02-10,Water bill
+13,35.0,Entertainment,2024-02-14,Concert tickets
+14,25.0,Transport,2024-02-18,Taxi fare
+15,70.0,Dining,2024-02-20,Lunch at a cafe
+16,40.0,Health,2024-02-22,Pharmacy purchase
+17,120.0,Education,2024-02-25,Course materials
+18,55.0,Shopping,2024-02-28,Shoes
+19,200.0,Insurance,2024-03-01,Car insurance
+20,15.0,Miscellaneous,2024-03-05,Gift
+21,60.0,Groceries,2024-03-07,Grocery shopping
+22,90.0,Utilities,2024-03-10,Gas bill
+23,50.0,Entertainment,2024-03-14,Amusement park
+24,30.0,Transport,2024-03-18,Train fare
+25,80.0,Dining,2024-03-20,Dinner at a restaurant
+26,50.0,Health,2024-03-22,Dentist visit
+27,150.0,Education,2024-03-25,Textbooks
+28,65.0,Shopping,2024-03-28,Accessories
+29,250.0,Insurance,2024-03-30,Home insurance
+30,20.0,Miscellaneous,2024-03-31,Cleaning supplies

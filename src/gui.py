@@ -3,8 +3,11 @@ from tkinter import ttk, messagebox, filedialog
 from preferences import Preferences
 from controller import ExpenseTrackerController
 from datetime import datetime
+from tkcalendar import Calendar, DateEntry
 import pandas as pd
 import matplotlib.pyplot as plt
+from ttkthemes import ThemedStyle
+import sv_ttk
 
 class ExpenseTrackerView:
     def __init__(self, root, controller):
@@ -12,9 +15,10 @@ class ExpenseTrackerView:
         self.root.title("Expense Tracker")
         self.controller = controller
 
-        self.style = ttk.Style(self.root)
-        self.style.theme_use("clam")
+        self.style = ThemedStyle(self.root)
+        sv_ttk.set_theme("dark")  # Apply "dark" theme from sv_ttk
 
+        # Continue with your existing setup
         self.setup_tabs()
         self.setup_export_buttons()
         self.setup_settings_tab()
@@ -37,21 +41,26 @@ class ExpenseTrackerView:
         self.setup_report_form(tab_frames[3])
 
     def setup_add_expense_form(self, frame):
-        ttk.Label(frame, text="Amount:").grid(row=0, column=0, sticky=tk.W)
-        self.amount_entry = ttk.Entry(frame, width=25)
-        self.amount_entry.grid(row=0, column=1, sticky=(tk.W, tk.E))
+        field_width = 16  # Width for all fields (Amount, Category, Date)
 
-        ttk.Label(frame, text="Category:").grid(row=1, column=0, sticky=tk.W)
+        ttk.Label(frame, text="Amount:").grid(row=0, column=0, sticky=tk.W, padx=10, pady=5)
+        self.amount_entry = ttk.Entry(frame, width=field_width)
+        self.amount_entry.grid(row=0, column=1, sticky=tk.W, padx=10, pady=5)
+
+        ttk.Label(frame, text="Category:").grid(row=1, column=0, sticky=tk.W, padx=10, pady=5)
         self.category_var = tk.StringVar()
-        self.update_category_menu(frame)  # Pass frame to update_category_menu
+        self.category_menu = ttk.OptionMenu(frame, self.category_var, "", *self.controller.get_categories())
+        self.category_menu.config(width=13)
+        self.category_menu.grid(row=1, column=1, sticky=tk.W, padx=10, pady=5)
 
-        ttk.Label(frame, text="Date (YYYY-MM-DD):").grid(row=2, column=0, sticky=tk.W)
-        self.date_entry = ttk.Entry(frame, width=25)
-        self.date_entry.grid(row=2, column=1, sticky=(tk.W, tk.E))
+        ttk.Label(frame, text="Date:").grid(row=2, column=0, sticky=tk.W, padx=10, pady=5)
+        self.date_entry = DateEntry(frame, width=12, background='darkblue',
+                                    foreground='white', borderwidth=2)
+        self.date_entry.grid(row=2, column=1, sticky=tk.W, padx=10, pady=5)
 
-        ttk.Label(frame, text="Description:").grid(row=3, column=0, sticky=tk.W)
-        self.description_entry = ttk.Entry(frame, width=25)
-        self.description_entry.grid(row=3, column=1, sticky=(tk.W, tk.E))
+        ttk.Label(frame, text="Description:").grid(row=3, column=0, sticky=tk.W, padx=10, pady=10)
+        self.description_entry = tk.Text(frame, width=18, height=2)
+        self.description_entry.grid(row=3, column=1, sticky=tk.W, padx=10, pady=10)
 
         self.add_button = ttk.Button(frame, text="Add Expense", command=self.add_expense)
         self.add_button.grid(row=4, columnspan=2, pady=10)
@@ -71,25 +80,29 @@ class ExpenseTrackerView:
         self.load_button.grid(row=1, column=0, pady=10)
 
     def setup_filter_form(self, frame):
+        # Category filter
         ttk.Label(frame, text="Category:").grid(row=0, column=0, sticky=tk.W)
         self.filter_category_var = tk.StringVar(value="All")
         self.filter_category_menu = ttk.OptionMenu(frame, self.filter_category_var, "All", *self.controller.get_categories())
         self.filter_category_menu.grid(row=0, column=1, sticky=(tk.W, tk.E))
 
+        # Date range filter
         ttk.Label(frame, text="Date Range:").grid(row=0, column=2, sticky=tk.W)
-        self.start_date_entry = ttk.Entry(frame, width=10)
+        self.start_date_entry = DateEntry(frame, width=12, background='darkblue', foreground='white', borderwidth=2)
         self.start_date_entry.grid(row=0, column=3, sticky=(tk.W, tk.E))
-        self.end_date_entry = ttk.Entry(frame, width=10)
+        self.end_date_entry = DateEntry(frame, width=12, background='darkblue', foreground='white', borderwidth=2)
         self.end_date_entry.grid(row=0, column=4, sticky=(tk.W, tk.E))
 
+        # Amount range filter
         ttk.Label(frame, text="Amount Range:").grid(row=1, column=0, sticky=tk.W)
         self.min_amount_entry = ttk.Entry(frame, width=10)
         self.min_amount_entry.grid(row=1, column=1, sticky=(tk.W, tk.E))
         self.max_amount_entry = ttk.Entry(frame, width=10)
         self.max_amount_entry.grid(row=1, column=2, sticky=(tk.W, tk.E))
 
+        # Filter button
         self.filter_button = ttk.Button(frame, text="Filter", command=self.filter_expenses)
-        self.filter_button.grid(row=1, column=4, padx=10)
+        self.filter_button.grid(row=1, column=4, padx=10, pady=5, sticky=tk.W)
 
         # Treeview for displaying filtered expenses
         columns = ('Amount', 'Category', 'Date', 'Description')
@@ -110,6 +123,46 @@ class ExpenseTrackerView:
 
         self.bar_chart_button = ttk.Button(self.report_frame, text="Monthly Expenses", command=self.plot_monthly_expenses)
         self.bar_chart_button.grid(row=0, column=1, padx=10)
+
+    def plot_expense_distribution(self):
+        try:
+            expenses = self.controller.get_expenses_charts()
+            df = pd.DataFrame(expenses, columns=['id', 'Amount', 'Category', 'Date', 'Description'])
+            category_expenses = df.groupby('Category')['Amount'].sum()
+
+            # Configure Matplotlib for dark theme
+            plt.style.use('bmh')
+            
+            plt.figure(figsize=(8, 6))
+            plt.pie(category_expenses, labels=category_expenses.index, autopct='%1.1f%%', startangle=140)
+            plt.axis('equal')
+            plt.title('Expense Distribution by Category')
+            plt.show()
+        except Exception as e:
+            messagebox.showerror("Error", f"Error plotting expense distribution: {e}")
+
+    def plot_monthly_expenses(self):
+        try:
+            expenses = self.controller.get_expenses_charts()
+            df = pd.DataFrame(expenses, columns=['id', 'Amount', 'Category', 'Date', 'Description'])
+            df['Date'] = pd.to_datetime(df['Date'])
+            df['Month'] = df['Date'].dt.to_period('M')
+            monthly_expenses = df.groupby('Month')['Amount'].sum()
+
+            # Configure Matplotlib for dark theme
+            plt.style.use('bmh')
+            
+            plt.figure(figsize=(10, 6))
+            plt.bar(monthly_expenses.index.astype(str), monthly_expenses.values)
+            plt.xlabel('Month')
+            plt.ylabel('Total Expenses')
+            plt.title('Monthly Expenses')
+            plt.xticks(rotation=45)
+            plt.tight_layout()
+            plt.show()
+        except Exception as e:
+            messagebox.showerror("Error", f"Error plotting monthly expenses: {e}")
+
 
     def setup_settings_tab(self):
         settings_frame = ttk.Frame(self.tabs)
@@ -143,8 +196,8 @@ class ExpenseTrackerView:
 
 
     def update_categories(self):
-        self.update_category_menu(self.tabs.winfo_children()[0])  # Assuming first tab is Add Expense
-        self.load_categories()  # Update categories in all other relevant places
+        self.update_category_menu(self.tabs.winfo_children()[0])
+        self.load_categories()
 
     def clear_entries(self):
         self.amount_entry.delete(0, tk.END)
@@ -222,15 +275,18 @@ class ExpenseTrackerView:
     def add_expense(self):
         amount = self.amount_entry.get().strip()
         category = self.category_var.get()
-        date_str = self.date_entry.get().strip()
-        description = self.description_entry.get().strip()
+        date = self.date_entry.get_date().strftime("%Y-%m-%d")
+        description = self.description_entry.get("1.0", "end-1c").strip()  # for Text widget
+        # description = self.description_entry.get().strip()  # for Entry widget
 
         try:
-            if not date_str:
-                date = datetime.today().date()
-            else:
-                date = datetime.strptime(date_str, '%Y-%m-%d').date()
-            
+            # Validate inputs
+            if not (amount and category and date and description):
+                raise ValueError("All fields except description are required.")
+
+            amount = float(amount)  # Convert amount to float
+
+            # Add expense using controller
             self.controller.add_expense(amount, category, date, description)
             messagebox.showinfo("Success", "Expense added successfully!")
             self.clear_entries()
@@ -249,56 +305,34 @@ class ExpenseTrackerView:
 
     def filter_expenses(self):
         category = self.filter_category_var.get()
-        start_date = self.start_date_entry.get().strip()
-        end_date = self.end_date_entry.get().strip()
-        min_amount = self.min_amount_entry.get().strip()
-        max_amount = self.max_amount_entry.get().strip()
+        start_date = self.start_date_entry.get_date().strftime('%Y-%m-%d')
+        end_date = self.end_date_entry.get_date().strftime('%Y-%m-%d')
+        min_amount = self.min_amount_entry.get()
+        max_amount = self.max_amount_entry.get()
 
         try:
-            start_date = datetime.strptime(start_date, "%Y-%m-%d").date() if start_date else None
-            end_date = datetime.strptime(end_date, "%Y-%m-%d").date() if end_date else None
-            min_amount = float(min_amount) if min_amount else None
-            max_amount = float(max_amount) if max_amount else None
+            # Convert date strings to datetime objects if they are not empty
+            if start_date:
+                start_date = datetime.strptime(start_date, "%Y-%m-%d").date().strftime("%Y-%m-%d")
+            if end_date:
+                end_date = datetime.strptime(end_date, "%Y-%m-%d").date().strftime("%Y-%m-%d")
 
+            # Call controller method with formatted dates
             filtered_expenses = self.controller.filter_expenses(category, start_date, end_date, min_amount, max_amount)
-            self.display_filtered_expenses(filtered_expenses)
+
+            # Update GUI with filtered results (assuming implementation)
+
         except ValueError as e:
-            messagebox.showerror("Error", f"Invalid input: {e}")
+            print(f"ValueError in filter_expenses: {e}")
+            # Handle error appropriately in your GUI
+
+        except Exception as e:
+            print(f"Exception in filter_expenses: {e}")
+            # Handle unexpected errors
 
     def display_filtered_expenses(self, expenses):
         self.clear_filtered_tree()
         for expense in expenses:
             self.filtered_tree.insert("", tk.END, values=expense)
 
-    def plot_expense_distribution(self):
-        try:
-            expenses = self.controller.load_expenses()
-            df = pd.DataFrame(expenses, columns=['id', 'Amount', 'Category', 'Date', 'Description'])
-            category_expenses = df.groupby('Category')['Amount'].sum()
 
-            plt.figure(figsize=(8, 6))
-            plt.pie(category_expenses, labels=category_expenses.index, autopct='%1.1f%%', startangle=140)
-            plt.axis('equal')
-            plt.title('Expense Distribution by Category')
-            plt.show()
-        except Exception as e:
-            messagebox.showerror("Error", f"Error plotting expense distribution: {e}")
-
-    def plot_monthly_expenses(self):
-        try:
-            expenses = self.controller.load_expenses()
-            df = pd.DataFrame(expenses, columns=['id', 'Amount', 'Category', 'Date', 'Description'])
-            df['Date'] = pd.to_datetime(df['Date'])
-            df['Month'] = df['Date'].dt.to_period('M')
-            monthly_expenses = df.groupby('Month')['Amount'].sum()
-
-            plt.figure(figsize=(10, 6))
-            plt.bar(monthly_expenses.index.astype(str), monthly_expenses.values)
-            plt.xlabel('Month')
-            plt.ylabel('Total Expenses')
-            plt.title('Monthly Expenses')
-            plt.xticks(rotation=45)
-            plt.tight_layout()
-            plt.show()
-        except Exception as e:
-            messagebox.showerror("Error", f"Error plotting monthly expenses: {e}")
